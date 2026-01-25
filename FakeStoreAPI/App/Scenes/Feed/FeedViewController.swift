@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    init(service: ServiceProtocol) {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground

@@ -12,11 +12,20 @@ struct Product: Codable {
     let title: String
     let price: Double
     let descriptionProduct: String
-    let category: Category
+    let category: CategoryProduct
     let image: String
+    
+    init(from response: ProductResponse) {
+        self.id = response.id
+        self.title = response.title
+        self.price = response.price
+        self.descriptionProduct = response.description
+        self.category = .unknown
+        self.image = response.image
+    }
 }
 
-enum Category: String, Codable {
+enum CategoryProduct: String, Codable {
     case electronics = "electronics"
     case jewelery = "jewelery"
     case menSClothing = "men's clothing"
