@@ -29,16 +29,8 @@ final class Service: ServiceProtocol {
         
         let productResponse = try JSONDecoder().decode([ProductResponse].self, from: data)
         
-        let products = productResponse.map { item in
-            return Product(
-                id: item.id,
-                title: item.title,
-                price: item.price,
-                descriptionProduct: item.descriptionProduct,
-                category: Category(rawValue: item.category.rawValue) ?? .unknown,
-                image: item.image
-            )
-        }
+        let products = productResponse.map { Product(from: $0) }
+       
         return products
     }
 }
