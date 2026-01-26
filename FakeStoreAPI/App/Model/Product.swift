@@ -20,7 +20,7 @@ struct Product: Codable {
         self.title = response.title
         self.price = response.price
         self.descriptionProduct = response.description
-        self.category = .unknown
+        self.category = CategoryProduct(rawValue: response.category.rawValue) ?? .unknown
         self.image = response.image
     }
 }
