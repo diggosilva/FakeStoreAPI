@@ -10,6 +10,7 @@ import Combine
 
 class FeedViewController: UIViewController {
     
+    private let contentView = FeedView()
     private let viewModel: any FeedViewModelProtocol
     private var cancellables = Set<AnyCancellable>()
     
@@ -20,11 +21,25 @@ class FeedViewController: UIViewController {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    override func loadView() {
+        view = contentView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        configureNavigationBar()
+        configureDataSourcesAndDelegates()
         handleStates()
         fetchProducts()
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.title = "Fake Store - Produtos"
+    }
+    
+    private func configureDataSourcesAndDelegates() {
+        contentView.tableView.dataSource = self
+        contentView.tableView.delegate = self
     }
     
     private func handleStates() {
@@ -43,15 +58,12 @@ class FeedViewController: UIViewController {
     }
     
     private func showLoadingState() {
-        print("CARREGANDO...")
+        contentView.spinner.startAnimating()
     }
     
     private func showLoadedState() {
-        print("CARREGADO!!!")
-        for i in 0..<viewModel.numberOfRows() {
-            let product = viewModel.productForRow(at: i)
-            print("ID: \(product.id), Nome: \(product.title)")
-        }
+        contentView.spinner.stopAnimating()
+        contentView.tableView.reloadData()
     }
     
     private func showErrorState(message: String) {
@@ -66,5 +78,24 @@ class FeedViewController: UIViewController {
     
     private func fetchProducts() {
         Task { await viewModel.fetchProducts() }
+    }
+}
+
+extension FeedViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfRows()
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.identifier, for: indexPath) as? FeedCell else { return UITableViewCell() }
+        let product = viewModel.productForRow(at: indexPath.row)
+        cell.configure(with: product)
+        return cell
+    }
+}
+
+extension FeedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
