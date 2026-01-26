@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		92DC187F2F2667F000DE0E4E /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 92DC187E2F2667F000DE0E4E /* SDWebImage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		92338E742F25085700AFD779 /* FakeStoreAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeStoreAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92DC187F2F2667F000DE0E4E /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = FakeStoreAPI;
 			packageProductDependencies = (
+				92DC187E2F2667F000DE0E4E /* SDWebImage */,
 			);
 			productName = FakeStoreAPI;
 			productReference = 92338E742F25085700AFD779 /* FakeStoreAPI.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 92338E6B2F25085700AFD779;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				92DC187D2F2667F000DE0E4E /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 92338E752F25085700AFD779 /* Products */;
 			projectDirPath = "";
@@ -343,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		92DC187D2F2667F000DE0E4E /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.21.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		92DC187E2F2667F000DE0E4E /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92DC187D2F2667F000DE0E4E /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 92338E6C2F25085700AFD779 /* Project object */;
 }
