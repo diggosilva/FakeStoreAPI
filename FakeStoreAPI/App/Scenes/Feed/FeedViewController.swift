@@ -97,5 +97,10 @@ extension FeedViewController: UITableViewDataSource {
 extension FeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let product = viewModel.productForRow(at: indexPath.row)
+        let viewModel = ProductDetailViewModel(product: product)
+        let detailsVC = ProductDetailViewController(viewModel: viewModel)
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
