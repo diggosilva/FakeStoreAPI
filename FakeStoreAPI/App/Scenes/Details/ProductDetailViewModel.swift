@@ -7,19 +7,28 @@
 
 import Foundation
 
+@MainActor
 protocol ProductDetailViewModelProtocol {
     func updateProduct() -> Product
+    func addToCart() async throws
 }
 
+@MainActor
 final class ProductDetailViewModel: ProductDetailViewModelProtocol {
     
     private var product: Product
-    
-    init(product: Product) {
+    private var service: ServiceProtocol
+        
+    init(product: Product, service: ServiceProtocol = Service()) {
         self.product = product
+        self.service = service
     }
     
     func updateProduct() -> Product {
         return product
+    }
+    
+    func addToCart() async throws {
+        try await service.postCart(productId: product.id, quantity: 1)
     }
 }

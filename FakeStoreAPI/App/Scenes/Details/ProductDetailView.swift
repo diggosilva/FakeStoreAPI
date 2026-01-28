@@ -8,7 +8,13 @@
 import UIKit
 import SDWebImage
 
+protocol ProductDetailViewDelegate: AnyObject {
+    func didTapAddToCart()
+}
+
 final class ProductDetailView: UIView {
+    
+    weak var delegate: ProductDetailViewDelegate?
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -75,6 +81,7 @@ final class ProductDetailView: UIView {
         
         let button = UIButton(configuration: configuration)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(didTapAddToCart), for: .touchUpInside)
         return button
     }()
     
@@ -123,6 +130,10 @@ final class ProductDetailView: UIView {
             
             productImageView.heightAnchor.constraint(equalToConstant: 300)
         ])
+    }
+    
+    @objc private func didTapAddToCart() {
+        delegate?.didTapAddToCart()
     }
     
     func configure(product: Product) {
