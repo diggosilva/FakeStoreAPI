@@ -70,12 +70,6 @@ class FeedViewController: UIViewController {
         showErrorAlert(message: message)
     }
     
-    private func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "Erro", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alert, animated: true)
-    }
-    
     private func fetchProducts() {
         Task { await viewModel.fetchProducts() }
     }
