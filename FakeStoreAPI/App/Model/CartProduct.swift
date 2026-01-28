@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct CartProduct: Codable {
+    var productId: Int
+    var quantity: Int
+}
+
+struct Cart: Codable {
+    var userId: Int?
+    var date: String
+    var products: [CartProduct]
+}
