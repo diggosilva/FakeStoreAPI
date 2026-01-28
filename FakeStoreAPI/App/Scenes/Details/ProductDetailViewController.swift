@@ -26,6 +26,7 @@ class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
+        configureDelegates()
         bindViewModel()
     }
     
@@ -33,8 +34,25 @@ class ProductDetailViewController: UIViewController {
         navigationItem.title = "Detalhes do Produto"
     }
     
+    private func configureDelegates() {
+        contentView.delegate = self
+    }
+    
     private func bindViewModel() {
         let product = viewModel.updateProduct()
         contentView.configure(product: product)
+    }
+}
+
+extension ProductDetailViewController: ProductDetailViewDelegate {
+    func didTapAddToCart() {
+        Task {
+            do {
+                try await viewModel.addToCart()
+                showAlert(title: "Sucesso ✅", message: "Produto adicionado ao carrinho!")
+            } catch {
+                showErrorAlert(message: "Não foi possível adicionar o produto ao carrinho.")
+            }
+        }
     }
 }
