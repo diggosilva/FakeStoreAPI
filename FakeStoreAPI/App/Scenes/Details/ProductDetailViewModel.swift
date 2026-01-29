@@ -30,5 +30,7 @@ final class ProductDetailViewModel: ProductDetailViewModelProtocol {
     
     func addToCart() async throws {
         try await service.postCart(productId: product.id, quantity: 1)
+        
+        CartManager.shared.addItem(productId: product.id, quantity: 1)
     }
 }
