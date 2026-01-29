@@ -28,22 +28,4 @@ final class MainTabBarController: UITabBarController {
         
         viewControllers = [vc1, vc2]
     }
-    
-    func updateBadge() {
-        let total = CartManager.shared.totalItems()
-        
-        if let cartItem = tabBar.items?.last {
-            // Se total for 0, atribui nil (some). Se não, atribui a String do total.
-            cartItem.badgeValue = (total > 0) ? "\(total)" : nil
-        }
-    }
-}
-
-class CartViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        navigationItem.title = "Carrinho"
-    }
 }

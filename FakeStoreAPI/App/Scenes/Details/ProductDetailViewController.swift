@@ -48,11 +48,7 @@ extension ProductDetailViewController: ProductDetailViewDelegate {
     func didTapAddToCart() {
         Task {
             do {
-                try await viewModel.addToCart()
-                
-                let mainTabBar = self.tabBarController as? MainTabBarController
-                mainTabBar?.updateBadge()
-                
+                try await viewModel.addToCart()                
                 showAlert(title: "Sucesso ✅", message: "Produto adicionado ao carrinho!")
             } catch {
                 showErrorAlert(message: "Não foi possível adicionar o produto ao carrinho.")
