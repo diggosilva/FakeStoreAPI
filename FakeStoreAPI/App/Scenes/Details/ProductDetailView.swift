@@ -70,7 +70,7 @@ final class ProductDetailView: UIView {
         return stackView
     }()
     
-    lazy var buyButton: UIButton = {
+    lazy var addToCartButton: UIButton = {
         var configuration = UIButton.Configuration.bordered()
         configuration.image = UIImage(systemName: "cart")
         configuration.title = "Adicionar ao Carrinho"
@@ -100,7 +100,7 @@ final class ProductDetailView: UIView {
     
     private func setupHierarchy() {
         addSubview(scrollView)
-        addSubview(buyButton)
+        addSubview(addToCartButton)
         scrollView.addSubview(contentView)
         contentView.addSubview(stackView)
     }
@@ -110,19 +110,19 @@ final class ProductDetailView: UIView {
             scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: buyButton.topAnchor, constant: -10),
+            scrollView.bottomAnchor.constraint(equalTo: addToCartButton.topAnchor, constant: -10),
             
-            buyButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            buyButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            buyButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            buyButton.heightAnchor.constraint(equalToConstant: 50),
-
+            addToCartButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            addToCartButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            addToCartButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            addToCartButton.heightAnchor.constraint(equalToConstant: 50),
+            
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: widthAnchor),
-
+            
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
