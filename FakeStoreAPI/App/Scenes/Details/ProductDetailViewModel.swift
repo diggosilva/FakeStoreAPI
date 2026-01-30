@@ -29,6 +29,6 @@ final class ProductDetailViewModel: ProductDetailViewModelProtocol {
     }
     
     func addToCart() async throws {
-        
+        CartManager.shared.add(product)
     }
 }
