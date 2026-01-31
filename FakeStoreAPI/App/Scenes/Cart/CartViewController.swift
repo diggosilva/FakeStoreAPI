@@ -44,16 +44,16 @@ class CartViewController: UIViewController {
     }
 }
 
-extension CartViewController: UITableViewDataSource, UITableViewDelegate {
+extension CartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CartCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CartCell.identifier, for: indexPath) as? CartCell else { return UITableViewCell() }
         let item = viewModel.items[indexPath.row]
-        cell.textLabel?.text = "\(item.quantity)x \(item.product.title)"
-        cell.detailTextLabel?.text = item.product.price.formattedCurrency()
+        cell.delegate = self
+        cell.configure(with: item)
         return cell
     }
     
@@ -61,5 +61,23 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
         if editingStyle == .delete {
             viewModel.removeItem(at: indexPath.row)
         }
+    }
+}
+
+extension CartViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension CartViewController: CartCellDelegate {
+    func didTapIncrement(id: Int) {
+        if let product = viewModel.items.first(where: { $0.product.id == id })?.product {
+            CartManager.shared.add(product)
+        }
+    }
+    
+    func didTapDecrement(id: Int) {
+        CartManager.shared.removeOneItem(productID: id)
     }
 }

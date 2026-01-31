@@ -10,9 +10,9 @@ import UIKit
 final class CartView: UIView {
     
     lazy var tableView: UITableView = {
-        let tv = UITableView()
+        let tv = UITableView(frame: .zero, style: .insetGrouped)
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "CartCell")
+        tv.register(CartCell.self, forCellReuseIdentifier: CartCell.identifier)
         return tv
     }()
     
@@ -20,7 +20,6 @@ final class CartView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.text = "Total: $0.00"
         label.textAlignment = .right
         return label
     }()
@@ -30,12 +29,19 @@ final class CartView: UIView {
         setupView()
     }
     
-    required init?(coder: NSCoder) { fatalError() }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     private func setupView() {
-        backgroundColor = .systemBackground
+        setupHierarchy()
+        setupConstraints()
+        setupConfigurations()
+    }
+    
+    private func setupHierarchy() {
         addSubviews(tableView, totalLabel)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -44,7 +50,11 @@ final class CartView: UIView {
             
             totalLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             totalLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            totalLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -24),
+            totalLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    private func setupConfigurations() {
+        backgroundColor = .systemBackground
     }
 }
