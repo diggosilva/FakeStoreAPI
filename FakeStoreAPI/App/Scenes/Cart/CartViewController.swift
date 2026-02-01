@@ -23,11 +23,52 @@ class CartViewController: UIViewController {
         navigationItem.title = "Meu Carrinho"
         setupTableView()
         bindViewModel()
+        handleStates()
     }
     
     private func setupTableView() {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
+        contentView.delegate = self
+    }
+    
+    private func handleStates() {
+        viewModel.statePublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                switch state {
+                case .idle: break
+                case .loading: self?.showLoadingState()
+                case .loaded: self?.showLoadedState()
+                case .error(let error): self?.showErrorState(message: error)
+                }
+            }.store(in: &cancellables)
+    }
+    
+    private func showLoadingState() {
+        updateButtonState(true)
+    }
+    
+    private func showLoadedState() {
+        updateButtonState(false)
+        showAlert(title: "Sucesso ✅", message: "Sua compra foi finalizada!")
+    }
+    
+    private func showErrorState(message: String) {
+        updateButtonState(false)
+        showErrorAlert(message: message)
+    }
+    
+    private func updateButtonState(_ isLoading: Bool) {
+        if isLoading {
+            contentView.spinner.startAnimating()
+            contentView.checkoutButton.isEnabled = false
+            contentView.checkoutButton.alpha = 0.5
+        } else {
+            contentView.spinner.stopAnimating()
+            contentView.checkoutButton.isEnabled = true
+            contentView.checkoutButton.alpha = 1.0
+        }
     }
     
     private func bindViewModel() {
@@ -72,12 +113,16 @@ extension CartViewController: UITableViewDelegate {
 
 extension CartViewController: CartCellDelegate {
     func didTapIncrement(id: Int) {
-        if let product = viewModel.items.first(where: { $0.product.id == id })?.product {
-            CartManager.shared.add(product)
-        }
+        viewModel.incrementItem(id: id)
     }
     
     func didTapDecrement(id: Int) {
-        CartManager.shared.removeOneItem(productID: id)
+        viewModel.decrementItem(id: id)
+    }
+}
+
+extension CartViewController: CartViewDelegate {
+    func didTapCheckout() {
+        Task { await viewModel.checkout() }
     }
 }
