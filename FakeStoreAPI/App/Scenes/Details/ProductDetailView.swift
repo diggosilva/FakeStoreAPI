@@ -71,18 +71,7 @@ final class ProductDetailView: UIView {
     }()
     
     lazy var addToCartButton: UIButton = {
-        var configuration = UIButton.Configuration.bordered()
-        configuration.image = UIImage(systemName: "cart")
-        configuration.title = "Adicionar ao Carrinho"
-        configuration.baseBackgroundColor = .systemBlue
-        configuration.baseForegroundColor = .white
-        configuration.cornerStyle = .capsule
-        configuration.imagePadding = 8
-        
-        let button = UIButton(configuration: configuration)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(didTapAddToCart), for: .touchUpInside)
-        return button
+        CustomButton(image: UIImage(systemName: "cart"), title: "Adicionar ao Carrinho", target: self, action: #selector(didTapAddToCart))
     }()
     
     override init(frame: CGRect) {
@@ -115,7 +104,7 @@ final class ProductDetailView: UIView {
             addToCartButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             addToCartButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             addToCartButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            addToCartButton.heightAnchor.constraint(equalToConstant: 50),
+            addToCartButton.heightAnchor.constraint(equalToConstant: 44),
             
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
