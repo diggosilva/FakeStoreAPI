@@ -15,6 +15,7 @@ enum ServiceError: Error {
 
 protocol ServiceProtocol: AnyObject {
     func getProducts() async throws -> [Product]
+    func addNewCart(cart: Cart) async throws -> Cart
 }
 
 final class Service: ServiceProtocol {
@@ -32,5 +33,21 @@ final class Service: ServiceProtocol {
         let products = productResponse.map { Product(from: $0) }
         
         return products
+    }
+    
+    func addNewCart(cart: Cart) async throws -> Cart {
+        let urlString = "https://fakestoreapi.com/carts"
+        
+        guard let url = URL(string: urlString) else { throw ServiceError.invalidURL }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try JSONEncoder().encode(cart)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 201 else { throw ServiceError.invalidResponse }
+        
+        return try JSONDecoder().decode(Cart.self, from: data)
     }
 }
