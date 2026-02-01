@@ -112,11 +112,13 @@ final class CartCell: UITableViewCell {
     }
     
     func configure(with item: CartItem) {
+        guard let url = URL(string: item.product.image) else { return }
+        
         self.productID = item.product.id
+        productImageView.sd_setImage(with: url)
         titleLabel.text = item.product.title
         priceLabel.text = item.product.price.formattedCurrency(for: Locale(identifier: "en_US"))
         quantityLabel.text = "\(item.quantity)"
-        productImageView.sd_setImage(with: URL(string: item.product.image))
     }
     
     private func setupConfigurations() {
