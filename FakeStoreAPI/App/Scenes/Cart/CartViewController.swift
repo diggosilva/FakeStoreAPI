@@ -74,9 +74,17 @@ class CartViewController: UIViewController {
     private func bindViewModel() {
         viewModel.$items
             .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] items in
                 self?.contentView.tableView.reloadData()
                 self?.updateTotal()
+                
+                let isEmpty = items.isEmpty
+                self?.contentView.tableView.isHidden = isEmpty
+                self?.contentView.totalLabel.isHidden = isEmpty
+                self?.contentView.checkoutButton.isHidden = isEmpty
+                
+                self?.setNeedsUpdateContentUnavailableConfiguration()
+                
             }.store(in: &cancellables)
     }
     
@@ -124,5 +132,25 @@ extension CartViewController: CartCellDelegate {
 extension CartViewController: CartViewDelegate {
     func didTapCheckout() {
         Task { await viewModel.checkout() }
+    }
+}
+
+extension CartViewController {
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
+        if viewModel.items.isEmpty {
+            var config = UIContentUnavailableConfiguration.empty()
+            config.image = UIImage(systemName: "cart.badge.minus")
+            config.text = "Seu carrinho está vazio"
+            config.secondaryText = "Que tal adicionar alguns produtos?"
+            
+            config.button = .filled()
+            config.button.title = "Começar a comprar"
+            config.buttonProperties.primaryAction = UIAction { [weak self] _ in
+                self?.tabBarController?.selectedIndex = 0
+            }
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.contentUnavailableConfiguration = nil
+        }
     }
 }
