@@ -20,6 +20,7 @@ protocol FeedViewModelProtocol: AnyObject, StatefulViewModel where State == Feed
     func numberOfRows() -> Int
     func productForRow(at index: Int) -> Product
     func fetchProducts() async
+    func search(text: String)
 }
 
 @MainActor
@@ -27,6 +28,8 @@ final class FeedViewModel: FeedViewModelProtocol {
     
     private let service: ServiceProtocol
     private var products: [Product] = []
+    private var filteredProducts: [Product] = []
+    private var currentSearchText: String = ""
     
     private let stateSubject = CurrentValueSubject<FeedVCStates, Never>(.idle)
     
@@ -39,11 +42,11 @@ final class FeedViewModel: FeedViewModelProtocol {
     }
     
     func numberOfRows() -> Int {
-        return products.count
+        return filteredProducts.count
     }
     
     func productForRow(at index: Int) -> Product {
-        return products[index]
+        return filteredProducts[index]
     }
     
     func fetchProducts() async {
@@ -51,9 +54,33 @@ final class FeedViewModel: FeedViewModelProtocol {
         
         do {
             products = try await service.getProducts()
+            filteredProducts = products
             stateSubject.send(.loaded)
         } catch {
             stateSubject.send(.error("Ocorreu um erro ao carregar os produtos. \(error.localizedDescription)"))
+        }
+    }
+    
+    func search(text: String) {
+        currentSearchText = normalize(text)
+        applyFilter()
+    }
+    
+    private func normalize(_ text: String) -> String {
+        return text
+            .folding(options: .diacriticInsensitive, locale: .current)
+            .lowercased()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    private func applyFilter() {
+        if currentSearchText.isEmpty {
+            filteredProducts = products
+        } else {
+            filteredProducts = products.filter {
+                normalize($0.title).contains(currentSearchText) ||
+                normalize($0.category.rawValue).contains(currentSearchText)
+            }
         }
     }
 }
