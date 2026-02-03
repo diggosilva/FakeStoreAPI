@@ -13,6 +13,7 @@ class FeedViewController: UIViewController {
     private let contentView = FeedView()
     private let viewModel: any FeedViewModelProtocol
     private var cancellables = Set<AnyCancellable>()
+    private let searchController = UISearchController(searchResultsController: nil)
     
     init(service: ServiceProtocol = Service()) {
         self.viewModel = FeedViewModel(service: service)
@@ -34,7 +35,15 @@ class FeedViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
+        searchController.searchBar.placeholder = "Buscar produto"
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.title = "Fake Store - Produtos"
+        
+        definesPresentationContext = true
     }
     
     private func configureDataSourcesAndDelegates() {
@@ -96,5 +105,13 @@ extension FeedViewController: UITableViewDelegate {
         let viewModel = ProductDetailViewModel(product: product)
         let detailsVC = ProductDetailViewController(viewModel: viewModel)
         navigationController?.pushViewController(detailsVC, animated: true)
+    }
+}
+
+extension FeedViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let text = searchController.searchBar.text ?? ""
+        viewModel.search(text: text)
+        contentView.tableView.reloadData()
     }
 }
