@@ -113,5 +113,35 @@ extension FeedViewController: UISearchResultsUpdating {
         let text = searchController.searchBar.text ?? ""
         viewModel.search(text: text)
         contentView.tableView.reloadData()
+        setNeedsUpdateContentUnavailableConfiguration()
+    }
+}
+
+extension FeedViewController {
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
+        switch viewModel.currentState {
+        case .idle, .loading:
+            contentUnavailableConfiguration = nil
+            return
+        default:
+            break
+        }
+        
+        if viewModel.numberOfRows() == 0 {
+            var config = UIContentUnavailableConfiguration.empty()
+            config.image = UIImage(systemName: "exclamationmark.magnifyingglass")
+            config.text = "Nenhum produto encontrado."
+            
+            let searchText = searchController.searchBar.text ?? ""
+            
+            if searchText.isEmpty {
+                config.secondaryText = "Use a busca para encontrar um produto."
+            } else {
+                config.secondaryText = "Nenhum produto encontrado com o termo '\(searchText)'"
+            }
+            self.contentUnavailableConfiguration = config
+        } else {
+            self.contentUnavailableConfiguration = nil
+        }
     }
 }
