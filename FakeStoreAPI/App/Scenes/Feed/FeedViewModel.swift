@@ -19,6 +19,7 @@ enum FeedVCStates {
 protocol FeedViewModelProtocol: AnyObject, StatefulViewModel where State == FeedVCStates {
     func numberOfRows() -> Int
     func productForRow(at index: Int) -> Product
+    func getProducts() -> [Product]
     func fetchProducts() async
     func search(text: String)
     
@@ -55,6 +56,10 @@ final class FeedViewModel: FeedViewModelProtocol {
     
     func productForRow(at index: Int) -> Product {
         return filteredProducts[index]
+    }
+    
+    func getProducts() -> [Product] {
+        return filteredProducts
     }
     
     func fetchProducts() async {
