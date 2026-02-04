@@ -21,6 +21,8 @@ protocol FeedViewModelProtocol: AnyObject, StatefulViewModel where State == Feed
     func productForRow(at index: Int) -> Product
     func fetchProducts() async
     func search(text: String)
+    
+    var currentState: FeedVCStates { get }
 }
 
 @MainActor
@@ -31,10 +33,16 @@ final class FeedViewModel: FeedViewModelProtocol {
     private var filteredProducts: [Product] = []
     private var currentSearchText: String = ""
     
+    private(set) var currentState: FeedVCStates = .idle
+    
     private let stateSubject = CurrentValueSubject<FeedVCStates, Never>(.idle)
     
     var statePublisher: AnyPublisher<FeedVCStates, Never> {
-        stateSubject.eraseToAnyPublisher()
+        stateSubject
+            .handleEvents(receiveOutput: { [weak self] state in
+                self?.currentState = state
+            })
+            .eraseToAnyPublisher()
     }
     
     init(service: ServiceProtocol) {
@@ -50,13 +58,16 @@ final class FeedViewModel: FeedViewModelProtocol {
     }
     
     func fetchProducts() async {
+        currentState = .loading
         stateSubject.send(.loading)
         
         do {
             products = try await service.getProducts()
             filteredProducts = products
+            currentState = .loaded
             stateSubject.send(.loaded)
         } catch {
+            currentState = .error(error.localizedDescription)
             stateSubject.send(.error("Ocorreu um erro ao carregar os produtos. \(error.localizedDescription)"))
         }
     }
