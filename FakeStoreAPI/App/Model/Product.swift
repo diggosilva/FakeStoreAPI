@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Product: Codable {
+struct Product: Codable, Identifiable, Sendable {
     let id: Int
     let title: String
     let price: Double
@@ -26,9 +26,9 @@ struct Product: Codable {
 }
 
 enum CategoryProduct: String, Codable {
-    case electronics = "electronics"
-    case jewelery = "jewelery"
+    case electronics
+    case jewelery
     case menSClothing = "men's clothing"
     case womenSClothing = "women's clothing"
-    case unknown = "unknown"
+    case unknown
 }

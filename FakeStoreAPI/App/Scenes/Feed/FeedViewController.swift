@@ -15,6 +15,8 @@ class FeedViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private let searchController = UISearchController(searchResultsController: nil)
     
+    private var dataSource: UITableViewDiffableDataSource<Int, String>?
+    
     init(service: ServiceProtocol = Service()) {
         self.viewModel = FeedViewModel(service: service)
         super.init(nibName: nil, bundle: nil)
@@ -29,9 +31,17 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-        configureDataSourcesAndDelegates()
+        configureDataSource()
+        configureDelegates()
         handleStates()
         fetchProducts()
+    }
+    
+    private func applySnapshot(animated: Bool = true) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(viewModel.getProducts().map { String($0.id) })
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
     private func configureNavigationBar() {
@@ -46,8 +56,22 @@ class FeedViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    private func configureDataSourcesAndDelegates() {
-        contentView.tableView.dataSource = self
+    private func configureDataSource() {
+        // 2. Inicialização segura
+        dataSource = UITableViewDiffableDataSource<Int, String>(tableView: contentView.tableView) { [weak self] tableView, indexPath, itemID in
+            
+            // 3. Busca o objeto real pelo ID no array local
+            guard let item = self?.viewModel.getProducts().first(where: { String($0.id) == itemID }),
+                  let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.identifier, for: indexPath) as? FeedCell else {
+                return UITableViewCell()
+            }
+            
+            cell.configure(with: item)
+            return cell
+        }
+    }
+    
+    private func configureDelegates() {
         contentView.tableView.delegate = self
     }
     
@@ -72,7 +96,7 @@ class FeedViewController: UIViewController {
     
     private func showLoadedState() {
         contentView.spinner.stopAnimating()
-        contentView.tableView.reloadData()
+        applySnapshot()
     }
     
     private func showErrorState(message: String) {
@@ -81,19 +105,6 @@ class FeedViewController: UIViewController {
     
     private func fetchProducts() {
         Task { await viewModel.fetchProducts() }
-    }
-}
-
-extension FeedViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows()
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.identifier, for: indexPath) as? FeedCell else { return UITableViewCell() }
-        let product = viewModel.productForRow(at: indexPath.row)
-        cell.configure(with: product)
-        return cell
     }
 }
 
@@ -112,7 +123,7 @@ extension FeedViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let text = searchController.searchBar.text ?? ""
         viewModel.search(text: text)
-        contentView.tableView.reloadData()
+        applySnapshot()
         setNeedsUpdateContentUnavailableConfiguration()
     }
 }
