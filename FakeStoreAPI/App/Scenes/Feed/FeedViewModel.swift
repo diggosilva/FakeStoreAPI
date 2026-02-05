@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-enum FeedVCStates {
+enum FeedVCStates: Equatable {
     case idle
     case loading
     case loaded
