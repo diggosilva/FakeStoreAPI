@@ -10,8 +10,19 @@
 		92DC187F2F2667F000DE0E4E /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 92DC187E2F2667F000DE0E4E /* SDWebImage */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		92DDE18A2F34BF8600007832 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 92338E6C2F25085700AFD779 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 92338E732F25085700AFD779;
+			remoteInfo = FakeStoreAPI;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		92338E742F25085700AFD779 /* FakeStoreAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeStoreAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		92DDE1862F34BF8600007832 /* FakeStoreAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FakeStoreAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -33,6 +44,11 @@
 			path = FakeStoreAPI;
 			sourceTree = "<group>";
 		};
+		92DDE1872F34BF8600007832 /* FakeStoreAPITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FakeStoreAPITests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +60,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		92DDE1832F34BF8600007832 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -51,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				92338E762F25085700AFD779 /* FakeStoreAPI */,
+				92DDE1872F34BF8600007832 /* FakeStoreAPITests */,
 				92338E752F25085700AFD779 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				92338E742F25085700AFD779 /* FakeStoreAPI.app */,
+				92DDE1862F34BF8600007832 /* FakeStoreAPITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,6 +114,29 @@
 			productReference = 92338E742F25085700AFD779 /* FakeStoreAPI.app */;
 			productType = "com.apple.product-type.application";
 		};
+		92DDE1852F34BF8600007832 /* FakeStoreAPITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92DDE18E2F34BF8600007832 /* Build configuration list for PBXNativeTarget "FakeStoreAPITests" */;
+			buildPhases = (
+				92DDE1822F34BF8600007832 /* Sources */,
+				92DDE1832F34BF8600007832 /* Frameworks */,
+				92DDE1842F34BF8600007832 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				92DDE18B2F34BF8600007832 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				92DDE1872F34BF8600007832 /* FakeStoreAPITests */,
+			);
+			name = FakeStoreAPITests;
+			packageProductDependencies = (
+			);
+			productName = FakeStoreAPITests;
+			productReference = 92DDE1862F34BF8600007832 /* FakeStoreAPITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -101,6 +149,10 @@
 				TargetAttributes = {
 					92338E732F25085700AFD779 = {
 						CreatedOnToolsVersion = 26.0.1;
+					};
+					92DDE1852F34BF8600007832 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 92338E732F25085700AFD779;
 					};
 				};
 			};
@@ -122,12 +174,20 @@
 			projectRoot = "";
 			targets = (
 				92338E732F25085700AFD779 /* FakeStoreAPI */,
+				92DDE1852F34BF8600007832 /* FakeStoreAPITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		92338E722F25085700AFD779 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		92DDE1842F34BF8600007832 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -144,7 +204,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		92DDE1822F34BF8600007832 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		92DDE18B2F34BF8600007832 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 92338E732F25085700AFD779 /* FakeStoreAPI */;
+			targetProxy = 92DDE18A2F34BF8600007832 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		92338E882F25085700AFD779 /* Debug */ = {
@@ -330,6 +405,48 @@
 			};
 			name = Release;
 		};
+		92DDE18C2F34BF8600007832 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 57HYQW6DAG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diggosilva.FakeStoreAPITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FakeStoreAPI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FakeStoreAPI";
+			};
+			name = Debug;
+		};
+		92DDE18D2F34BF8600007832 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 57HYQW6DAG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diggosilva.FakeStoreAPITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FakeStoreAPI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FakeStoreAPI";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -347,6 +464,15 @@
 			buildConfigurations = (
 				92338E882F25085700AFD779 /* Debug */,
 				92338E892F25085700AFD779 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		92DDE18E2F34BF8600007832 /* Build configuration list for PBXNativeTarget "FakeStoreAPITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92DDE18C2F34BF8600007832 /* Debug */,
+				92DDE18D2F34BF8600007832 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
