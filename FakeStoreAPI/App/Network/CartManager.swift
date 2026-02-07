@@ -8,6 +8,11 @@
 import Foundation
 import Combine
 
+protocol CartManaging {
+    func add(_ product: Product)
+    func contains(_ product: Product) -> Bool
+}
+
 struct CartItem: Codable {
     let product: Product
     var quantity: Int
@@ -40,9 +45,8 @@ final class CartManager {
 
     // MARK: - Persistence
     private func saveCart() {
-        if let encoded = try? JSONEncoder().encode(items) {
-            userDefaults.set(encoded, forKey: cartKey)
-        }
+        guard let encoded = try? JSONEncoder().encode(items) else { return }
+        userDefaults.set(encoded, forKey: cartKey)
     }
 
     private func loadCart() -> [CartItem] {
@@ -78,5 +82,12 @@ final class CartManager {
 
     func clearCart() {
         items.removeAll()
+    }
+}
+
+// MARK: - CartManaging Conformance
+extension CartManager: CartManaging {
+    func contains(_ product: Product) -> Bool {
+        items.contains { $0.product.id == product.id }
     }
 }
