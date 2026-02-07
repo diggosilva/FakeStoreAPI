@@ -18,17 +18,19 @@ final class ProductDetailViewModel: ProductDetailViewModelProtocol {
     
     private var product: Product
     private var service: ServiceProtocol
+    private var cartManager: CartManaging
         
-    init(product: Product, service: ServiceProtocol = Service()) {
+    init(product: Product, service: ServiceProtocol = Service(), cartManager: CartManaging = CartManager.shared) {
         self.product = product
         self.service = service
+        self.cartManager = cartManager
     }
     
     func updateProduct() -> Product {
-        return product
+        product
     }
     
     func addToCart() async throws {
-        CartManager.shared.add(product)
+        cartManager.add(product)
     }
 }
