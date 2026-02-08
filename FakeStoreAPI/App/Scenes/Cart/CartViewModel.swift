@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-enum CartStates {
+enum CartStates: Equatable {
     case idle
     case loading
     case loaded

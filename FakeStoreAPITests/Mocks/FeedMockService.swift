@@ -5,9 +5,10 @@
 //  Created by Diggo Silva on 05/02/26.
 //
 
+import XCTest
 @testable import FakeStoreAPI
 
-final class ServiceMock: ServiceProtocol {
+final class FeedServiceMock: ServiceProtocol {
     
     var shouldReturnError = false
     var productsToReturn: [Product] = []
@@ -21,6 +22,7 @@ final class ServiceMock: ServiceProtocol {
     }
     
     func addNewCart(cart: Cart) async throws -> Cart {
-        fatalError("Not needed for FeedViewModel tests")
+        XCTFail("addNewCart should not be called in FeedServiceMock")
+        return cart
     }
 }

@@ -12,13 +12,13 @@ import Combine
 @MainActor
 final class FeedViewModelTests: XCTestCase {
     
-    private var serviceMock: ServiceMock!
+    private var serviceMock: FeedServiceMock!
     private var sut: FeedViewModel!
     private var cancellables: Set<AnyCancellable>!
     
     override func setUp() {
         super.setUp()
-        serviceMock = ServiceMock()
+        serviceMock = FeedServiceMock()
         sut = FeedViewModel(service: serviceMock)
         cancellables = []
     }
