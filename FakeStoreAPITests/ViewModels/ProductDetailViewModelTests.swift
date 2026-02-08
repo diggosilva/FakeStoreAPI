@@ -13,14 +13,14 @@ import Combine
 final class ProductDetailViewModelTests: XCTestCase {
         
     private var product: Product!
-    private var serviceMock: ServiceMock!
+    private var serviceMock: FeedServiceMock!
     private var sut: ProductDetailViewModel!
     private var cancellables: Set<AnyCancellable>!
     
     override func setUp() {
         super.setUp()
         product = .mock()
-        serviceMock = ServiceMock()
+        serviceMock = FeedServiceMock()
         sut = ProductDetailViewModel(product: product, service: serviceMock)
         cancellables = []
     }
