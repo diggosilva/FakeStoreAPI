@@ -31,6 +31,7 @@ This project explores a clean project structure, MVVM architecture, network abst
 - Swift async/await
 - URLSession networking
 - Unit Tests with Mocks
+- UI TESTS - (TODO)
 - Custom UI components
 - Image caching with SDWebImage
 
